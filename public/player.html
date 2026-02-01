@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Video Player</title>
+  <meta charset="UTF-8">
+  <title>Player</title>
+
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      background: transparent;
-      overflow: hidden;
       width: 100%;
       height: 100%;
+      background: transparent;
+      overflow: hidden;
     }
 
     video {
@@ -24,14 +24,38 @@
 </head>
 <body>
 
-  <video
-    autoplay
-    
-   
-    playsinline
-  >
-    <source src="nivel-up.webm" type="video/webm" />
+  <video id="video" playsinline>
+    <source src="nivel-up.webm" type="video/webm">
   </video>
+
+  <script>
+    const video = document.getElementById("video");
+
+    function forcePlay() {
+      video.currentTime = 0;
+      video.play().catch(() => {
+        // se o navegador bloquear, tenta de novo
+        setTimeout(forcePlay, 500);
+      });
+    }
+
+    // toca assim que carregar
+    window.onload = () => {
+      forcePlay();
+    };
+
+    // quando terminar, reinicia
+    video.addEventListener("ended", () => {
+      forcePlay();
+    });
+
+    // se a aba voltar do background
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) {
+        forcePlay();
+      }
+    });
+  </script>
 
 </body>
 </html>
