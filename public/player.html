@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
-  <title>Video Player OBS</title>
 
   <style>
     html, body {
@@ -18,19 +17,14 @@
     video {
       width: 100vw;
       height: 100vh;
-      object-fit: contain; /* use "cover" se quiser preencher tudo */
+      object-fit: contain; /* use cover se quiser preencher tudo */
       background: transparent;
     }
   </style>
 </head>
 
 <body>
-  <video
-    id="video"
-    autoplay
-    playsinline
-    muted
-  >
+  <video id="video" autoplay muted playsinline>
     <source src="nivel-up.webm" type="video/webm">
   </video>
 
@@ -42,15 +36,8 @@
     video.volume = 1.0;
 
     video.play().catch(() => {
-      // retry se o OBS bloquear na primeira tentativa
-      setTimeout(() => video.play(), 500);
+      setTimeout(() => video.play(), 300);
     });
-
-    // reinicia sempre quando terminar (opcional, mas ideal pra alerta)
-    video.onended = () => {
-      video.currentTime = 0;
-      video.play();
-    };
   </script>
 </body>
 </html>
