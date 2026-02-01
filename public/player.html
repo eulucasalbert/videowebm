@@ -1,41 +1,45 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Player</title>
+<meta charset="UTF-8">
 
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      background: transparent;
-      overflow: hidden;
-    }
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+}
 
-    video {
-      width: 100vw;
-      height: 100vh;
-      object-fit: contain;
-      background: transparent;
-    }
-  </style>
+video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+}
+</style>
 </head>
+
 <body>
 
-  <video id="video" playsinline autoplay>
-    <source src="nivel-up.webm" type="video/webm">
-  </video>
+<video id="alert" playsinline>
+  <source src="nivel-up.webm" type="video/webm">
+</video>
 
-  <script>
-    const video = document.getElementById("video");
+<script>
+const video = document.getElementById("alert");
 
-    window.onload = () => {
-      video.currentTime = 0;
-      video.play();
-    };
-  </script>
+function playAlert() {
+  video.pause();
+  video.currentTime = 0;
+  video.play();
+}
+
+window.onload = () => {
+  playAlert();
+};
+</script>
 
 </body>
 </html>
