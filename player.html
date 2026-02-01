@@ -1,17 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+  <title>Video Player OBS</title>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      overflow: hidden;
+    }
+
+    video {
+      width: 100vw;
+      height: 100vh;
+      object-fit: contain; /* use "cover" se quiser preencher tudo */
+      background: transparent;
+    }
+  </style>
 </head>
-<body style="margin:0; background:transparent; overflow:hidden;">
-  <video id="v" autoplay playsinline muted>
- <source src="nivel-up.webm" type="video/webm">
+
+<body>
+  <video
+    id="video"
+    autoplay
+    playsinline
+    muted
+  >
+    <source src="nivel-up.webm" type="video/webm">
   </video>
+
   <script>
-    const v = document.getElementById("v");
-    v.volume = 1.0;
-    v.play();
+    const video = document.getElementById("video");
+
+    // garante autoplay no Chromium do OBS
+    video.muted = true;
+    video.volume = 1.0;
+
+    video.play().catch(() => {
+      // retry se o OBS bloquear na primeira tentativa
+      setTimeout(() => video.play(), 500);
+    });
+
+    // reinicia sempre quando terminar (opcional, mas ideal pra alerta)
+    video.onended = () => {
+      video.currentTime = 0;
+      video.play();
+    };
   </script>
 </body>
 </html>
-
