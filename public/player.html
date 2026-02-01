@@ -24,37 +24,17 @@
 </head>
 <body>
 
-  <video id="video" playsinline>
+  <video id="video" playsinline autoplay>
     <source src="nivel-up.webm" type="video/webm">
   </video>
 
   <script>
     const video = document.getElementById("video");
 
-    function forcePlay() {
-      video.currentTime = 0;
-      video.play().catch(() => {
-        // se o navegador bloquear, tenta de novo
-        setTimeout(forcePlay, 500);
-      });
-    }
-
-    // toca assim que carregar
     window.onload = () => {
-      forcePlay();
+      video.currentTime = 0;
+      video.play();
     };
-
-    // quando terminar, reinicia
-    video.addEventListener("ended", () => {
-      forcePlay();
-    });
-
-    // se a aba voltar do background
-    document.addEventListener("visibilitychange", () => {
-      if (!document.hidden) {
-        forcePlay();
-      }
-    });
   </script>
 
 </body>
