@@ -1,83 +1,76 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Level Up</title>
+<meta charset="UTF-8">
 
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      background: transparent;
-      overflow: hidden;
-    }
+<style>
+body {
+  margin: 0;
+  background: transparent;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
 
-    .container {
-      width: 100vw;
-      height: 100vh;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
+#container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
 
-    video {
-      width: 100%;
-      max-width: 420px; /* 🔥 PROPORÇÃO IGUAL A IMAGEM QUE VOCÊ QUER */
-      height: auto;
-    }
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 
-    .user {
-      margin-top: 12px;
-      font-size: 36px;
-      color: white;
-      font-weight: bold;
-      text-align: center;
-    }
-
-    .level {
-      margin-top: 4px;
-      font-size: 42px;
-      color: #FFD400;
-      font-weight: bold;
-    }
-  </style>
+#username {
+  position: absolute;
+  bottom: 15%;
+  font-size: 48px;
+  color: white;
+  text-shadow: 0 0 10px black;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="container" id="box">
-    <video id="video">
-      <source src="nivel-up.webm" type="video/webm">
-    </video>
+<div id="container">
+  <video id="video" playsinline>
+    <source src="nivel-up.webm" type="video/webm">
+  </video>
+  <div id="username"></div>
+</div>
 
-    <div class="user" id="user">Usuário</div>
-    <div class="level" id="level">Nível</div>
-  </div>
+<script>
+const video = document.getElementById("video");
+const container = document.getElementById("container");
+const usernameDiv = document.getElementById("username");
 
-  <script>
-    const video = document.getElementById("video");
-    const box = document.getElementById("box");
-    const user = document.getElementById("user");
-    const level = document.getElementById("level");
+// conexão com o Replit
+const socket = new WebSocket("wss://SEU_REPLIT_URL");
 
-    // FUNÇÃO QUE O REPLIT VAI CHAMAR
-    window.playLevelUp = (username, lvl) => {
-      user.innerText = username;
-      level.innerText = `Nível ${lvl}`;
+socket.onmessage = (event) => {
+  const data = JSON.parse(event.data);
 
-      box.style.display = "flex";
-      video.currentTime = 0;
-      video.play();
-    };
+  if (data.type === "nivel_up") {
+    usernameDiv.innerText = data.username;
 
-    // Quando terminar, some
+    // reinicia animação
+    container.style.display = "flex";
+    video.currentTime = 0;
+    video.play();
+
+    // esconder depois que acabar
     video.onended = () => {
-      box.style.display = "none";
+      container.style.display = "none";
     };
-  </script>
+  }
+};
+</script>
 
 </body>
 </html>
