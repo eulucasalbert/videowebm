@@ -1,45 +1,83 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <title>Level Up</title>
 
-<style>
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  overflow: hidden;
-}
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      overflow: hidden;
+    }
 
-video {
-  width: 100vw;
-  height: 100vh;
-  object-fit: contain;
-}
-</style>
+    .container {
+      width: 100vw;
+      height: 100vh;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    video {
+      width: 100%;
+      max-width: 420px; /* 🔥 PROPORÇÃO IGUAL A IMAGEM QUE VOCÊ QUER */
+      height: auto;
+    }
+
+    .user {
+      margin-top: 12px;
+      font-size: 36px;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .level {
+      margin-top: 4px;
+      font-size: 42px;
+      color: #FFD400;
+      font-weight: bold;
+    }
+  </style>
 </head>
 
 <body>
 
-<video id="alert" playsinline>
-  <source src="nivel-up.webm" type="video/webm">
-</video>
+  <div class="container" id="box">
+    <video id="video">
+      <source src="nivel-up.webm" type="video/webm">
+    </video>
 
-<script>
-const video = document.getElementById("alert");
+    <div class="user" id="user">Usuário</div>
+    <div class="level" id="level">Nível</div>
+  </div>
 
-function playAlert() {
-  video.pause();
-  video.currentTime = 0;
-  video.play();
-}
+  <script>
+    const video = document.getElementById("video");
+    const box = document.getElementById("box");
+    const user = document.getElementById("user");
+    const level = document.getElementById("level");
 
-window.onload = () => {
-  playAlert();
-};
-</script>
+    // FUNÇÃO QUE O REPLIT VAI CHAMAR
+    window.playLevelUp = (username, lvl) => {
+      user.innerText = username;
+      level.innerText = `Nível ${lvl}`;
+
+      box.style.display = "flex";
+      video.currentTime = 0;
+      video.play();
+    };
+
+    // Quando terminar, some
+    video.onended = () => {
+      box.style.display = "none";
+    };
+  </script>
 
 </body>
 </html>
